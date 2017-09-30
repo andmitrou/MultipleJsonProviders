@@ -7,16 +7,15 @@ using System.Web.Script.Serialization;
 
 namespace JsonMultipleProviders.Providers
 {
-    public class NativeProvider : IJsonProvider
+    public class NativeProvider : JavaScriptSerializer, IJsonProvider
     {
-        private JavaScriptSerializer nativeParser = new JavaScriptSerializer();
-
-        public Y Deserialize<Y>(string jsonContent)
+        
+        public new Y Deserialize<Y>(string jsonContent)
         {
             if (String.IsNullOrEmpty(jsonContent))
                 throw new NullReferenceException("jsonContent must not be empty!");
 
-            return nativeParser.Deserialize<Y>(jsonContent);
+            return Deserialize<Y>(jsonContent);           
         }
 
         public string Serialise<T>(T obj)
@@ -24,7 +23,7 @@ namespace JsonMultipleProviders.Providers
             if (obj == null)
                 throw new NullReferenceException("jsonContent must not be empty!");
 
-            return nativeParser.Serialize(obj);
+            return Serialize(obj);
         }
     }
 
